@@ -1,15 +1,24 @@
-int CRYSTAL_SIZE = 300;
+int CRYSTAL_SIZE = 130;
 int SIDES = 6;
  color[] defaultPalette = {
   color(255, 52, 154),
   color(4, 0, 152),
  };
 ArrayList<Crystal> allCrystals = new ArrayList<Crystal>();
+float PADDING = CRYSTAL_SIZE * 0.2;
+int MARGIN = int((CRYSTAL_SIZE / 2) + PADDING);
 
 void setup() {
- size(500, 500);
- Crystal firstCrystal = new Crystal(width/2, height/2, defaultPalette);
- allCrystals.add(firstCrystal);
+ size(1000, 1000);
+ float gridBox = CRYSTAL_SIZE + PADDING;
+ for (int x = MARGIN; x < width - PADDING; x += gridBox) {
+    for (int y = MARGIN; y < height - PADDING; y += gridBox) {
+      Crystal newCrystal = new Crystal(x, y, defaultPalette);
+      allCrystals.add(newCrystal);
+    }
+ }
+ //Crystal firstCrystal = new Crystal(width/2, height/2, defaultPalette);
+ //allCrystals.add(firstCrystal);
  smooth();
 }
 

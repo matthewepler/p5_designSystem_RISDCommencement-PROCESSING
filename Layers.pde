@@ -22,6 +22,8 @@ class Layer {
 class SteppedHexagons extends Layer {
     int numSteps;
     int strokeWidth;
+    float centerOffset;
+    float step;
   
     SteppedHexagons(color[] palette) {
       super(palette); 
@@ -29,6 +31,8 @@ class SteppedHexagons extends Layer {
       startAngle = randomSelectTwo() ? calcStartAngle(numShapes) : 0;
       angle = TWO_PI / numShapes;
       numSteps = randomSelectTwo() ? stepsOut : int(stepsOut * 1.25);
+      centerOffset = CRYSTAL_SIZE / 2 * 0.15;
+      step = ((CRYSTAL_SIZE / 2) - centerOffset) / numSteps;
       strokeWidth = randomSelectTwo() ? thinStroke : thickStroke;
     }
     
@@ -39,8 +43,7 @@ class SteppedHexagons extends Layer {
       pushMatrix();
       translate(posX, posY);
       rotate(startAngle);
-      float centerOffset = CRYSTAL_SIZE / 2 * 0.15;
-      float step = ((CRYSTAL_SIZE / 2) - centerOffset) / numSteps;
+
       for (float i = 1; i < numSteps+1; i++ ){
         hexagon(0, 0, centerOffset + (i * step));
       }
@@ -223,23 +226,34 @@ class DottedLines extends Layer {
 }
 
 /* --------------------------------------------  SIMPLE LINES */
-class SimpleLines extends Layer {    
+class SimpleLines extends Layer {  
+  int numSteps;
+  float step;
+  float start;
+  float stop;
+  int strokeWidth;
+  
  SimpleLines(color[] palette) {
     super(palette);
     numShapes = randomSelectTwo() ? sides : sides * 2;
     startAngle = calcStartAngle(numShapes);
     angle = TWO_PI / numShapes;
+    numSteps = randomSelectTwo() ? stepsOut : int(stepsOut * 1.25);
+    step = (CRYSTAL_SIZE / 2) / numSteps;
+    start = floor(random(0, numSteps));
+    stop = floor(random(start, numSteps + 2));
+    strokeWidth = randomSelectTwo() ? thinStroke : thickStroke;
  }
 
  void render(float posX, float posY) {    
     stroke(c);
     noFill();
-    strokeWeight(thinStroke);
+    strokeWeight(strokeWidth);
     pushMatrix();
     translate(posX, posY);
     rotate(startAngle);
     for(float i = 0; i < TWO_PI-0.1; i += angle) {
-       line(0, 0, 0, CRYSTAL_SIZE/2);
+       line(start * step, 0, stop * step, 0);
        rotate(angle);
     }
     popMatrix();

@@ -12,7 +12,7 @@ ArrayList<Layer> allLayers = new ArrayList<Layer>();
     allLayers = new ArrayList();
     float picker = random(0, 1);
     
-    allLayers.add(new DebugLines(palette));
+    // allLayers.add(new DebugLines(palette));
     
     boolean steppedHexagons = picker < 0.2 ? allLayers.add(new SteppedHexagons(palette)) : false;
     println("steppedHexagons: " + steppedHexagons);
@@ -34,9 +34,14 @@ ArrayList<Layer> allLayers = new ArrayList<Layer>();
     boolean circles = picker < 0.4 ? allLayers.add(new Circles(palette)) : false;
     println("circles: " + circles);
     
-    allLayers.add(new SimpleLines(palette));
-    // allLayers.add(new DottedLines(palette));
-        
+    picker = random(0, 1);
+    boolean simpleLines = picker < 0.7 ? allLayers.add(new SimpleLines(palette)) : false;
+    println("simpleLines: " + simpleLines);
+    if (!simpleLines) {
+      picker = random(0, 1);
+      boolean dottedLines = picker < 0.7 ? allLayers.add(new DottedLines(palette)) : false;
+      println("dottedLines: " + dottedLines);
+    }   
  }
  
  void render() { 
